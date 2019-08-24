@@ -38,7 +38,9 @@ export const Dashboard = () => {
               if(parsed && parsed.title && parsed.properties) {
                 parsed.tokenId = tokenId.toNumber()
                 newBadges.push(parsed);
-                setBadges([parsed, ...badges])
+                if(!badges.find(x => x.tokenId === parsed.tokenId)) {
+                  setBadges([parsed, ...badges])
+                }
               }
             }
           } catch {
