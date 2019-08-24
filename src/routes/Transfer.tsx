@@ -95,7 +95,6 @@ export const Transfer = ({
     setLoading(false);
     setError("Burned!");
     setData(null);
-    localStorage.setItem("badges", JSON.stringify([]));
     setTimeout(() => {
       window.location.replace("/");
     }, 3000);

@@ -21,10 +21,6 @@ export const Dashboard = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const existingBadges = JSON.parse(localStorage.getItem("badges") || "[]");
-    if (existingBadges) {
-      setBadges(existingBadges);
-    }
 
     const getMyBadges = async () => {
       setLoading(true);
@@ -41,10 +37,10 @@ export const Dashboard = () => {
               let parsed = await response.json();
               if (parsed && parsed.title && parsed.properties) {
                 parsed.tokenId = tokenId.toNumber();
-                newBadges.push(parsed);
-                if (!badges.find(x => x.tokenId === parsed.tokenId)) {
-                  setBadges([parsed, ...badges]);
+                if(!badges.find(x => x.tokenId === parsed.tokenId)) {
+                  newBadges.push(parsed);
                 }
+                setBadges([...newBadges, ...badges]);
               }
             }
           } catch {
@@ -53,11 +49,12 @@ export const Dashboard = () => {
         }
       }
       setLoading(false);
-      localStorage.setItem("badges", JSON.stringify(newBadges));
     };
 
     getMyBadges();
   }, []);
+
+  console.log(badges)
 
   return (
     <>
@@ -70,7 +67,6 @@ export const Dashboard = () => {
           <div className="itemGrid">
             {badges.length === 0 && <Spinner />}
             {badges
-              .filter(badge => !!badge)
               .map(badge => {
                 return (
                   <div className="itemGrid__item" key={badge.tokenId}>
