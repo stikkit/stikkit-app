@@ -1,3 +1,12 @@
+This is a simple front-end client for interacting with NFT smart contract.
+
+## Development
+* Fork this project
+* Deploy smart contracts from our [second repository](https://github.com/stikkit/stikkit-contracts)
+* Setup your infura API_kEY and deployed contract address in utils
+* `npm install`
+* `npm start`
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
