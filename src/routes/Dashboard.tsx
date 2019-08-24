@@ -17,16 +17,6 @@ export const Dashboard = () => {
   const contract = new Contract(STIKKIT_CONTRACT, abi, provider.getSigner());
   const [badges, setBadges] = useState <any []>([]);
 
-  const onStorageEvent = (storageEvent : StorageEvent) => {
-    if(storageEvent.newValue) {
-      setBadges(JSON.parse(storageEvent.newValue));
-    } else {
-      setBadges([]);
-    }
-  }
-
-  window.addEventListener('storage', onStorageEvent, false);
-
   useEffect(() => {
     const existingBadges = JSON.parse(localStorage.getItem('badges') || "[]")
     if(existingBadges) {
@@ -36,23 +26,27 @@ export const Dashboard = () => {
     const getMyBadges = async () => {
       const publicKey = await provider.getSigner().getAddress();
       const userBadgesCount = await contract.balanceOf(publicKey);
-      const badges = [];
+      const newBadges = [];
       if (userBadgesCount.toNumber() > 0) {
         for(let i = 0; i < userBadgesCount; i++) {
           try {
             let tokenId = await contract.tokenOfOwnerByIndex(publicKey, i);
             let tokenUri = await contract.tokenURI(tokenId.toNumber());
-            let response = await fetch(tokenUri);
-            let parsed = await response.json();
-            if(parsed && parsed.title && parsed.properties) {
-              badges[tokenId] = parsed;
+            if (tokenUri.includes("ipfs.io")) {
+              let response = await fetch(tokenUri);
+              let parsed = await response.json();
+              if(parsed && parsed.title && parsed.properties) {
+                parsed.tokenId = tokenId.toNumber()
+                newBadges.push(parsed);
+                setBadges([parsed, ...badges])
+              }
             }
           } catch {
             continue
           }
         }
       }
-      localStorage.setItem("badges", JSON.stringify(badges))
+      localStorage.setItem("badges", JSON.stringify(newBadges))
     }
 
     getMyBadges()
@@ -62,11 +56,11 @@ export const Dashboard = () => {
     <div className="screen">
       <h1>Your stikkers</h1>
       <div className="itemGrid">
-        <Spinner />
-        {badges.map((badge, index) => {
+        {badges.length === 0 && <Spinner />}
+        {badges.map((badge) => {
           if(badge) {
-            return <div className="itemGrid__item" key={index}>
-              <Link to={`/details/${index}`}>
+            return <div className="itemGrid__item" key={badge.tokenId}>
+              <Link to={`/details/${badge.tokenId}`}>
                 <img src={badge.properties.image.description} alt="" />
               </Link>
             </div>
