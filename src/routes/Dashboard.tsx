@@ -17,6 +17,7 @@ export const Dashboard = () => {
   const provider = useContext(ProviderContext);
   const contract = new Contract(STIKKIT_CONTRACT, abi, provider.getSigner());
   const [badges, setBadges] = useState<any[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const existingBadges = JSON.parse(localStorage.getItem("badges") || "[]");
@@ -25,6 +26,7 @@ export const Dashboard = () => {
     }
 
     const getMyBadges = async () => {
+      setLoading(true)
       const publicKey = await provider.getSigner().getAddress();
       const userBadgesCount = await contract.balanceOf(publicKey);
       const newBadges = [];
@@ -49,6 +51,7 @@ export const Dashboard = () => {
           }
         }
       }
+      setLoading(false)
       localStorage.setItem("badges", JSON.stringify(newBadges));
     };
 
@@ -60,7 +63,8 @@ export const Dashboard = () => {
       <div className="content">
         <h1>Your stikkers</h1>
         <div className="itemGrid">
-          {badges.length === 0 && <Spinner />}
+          {badges.length === 0 && loading && <Spinner />}
+          {badges.length === 0 && !loading && <p style={{textAlign: 'center'}}>You do not have any sticker yet 😥</p>}
           {badges
             .filter(badge => !!badge)
             .map(badge => {
