@@ -9,7 +9,8 @@ let abi = [
   "function tokenOfOwnerByIndex(address owner, uint256 index) public view returns (uint256)",
   "function transferFrom(address from, address to, uint256 tokenId) public",
   "function tokenURI(uint256 tokenId) external view returns (string memory)",
-  "function ownerOf(uint256 tokenId) public view returns (address)"
+  "function ownerOf(uint256 tokenId) public view returns (address)",
+  "function burn(address owner, uint256 tokenId) public"
 ];
 
 export const useContract = () => {

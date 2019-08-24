@@ -82,15 +82,18 @@ export const Transfer = ({
 
     setLoading(true);
 
-    const tx = await contract.transferFrom(
+    const tx = await contract.burn(
       await contract.signer.getAddress(),
-      "0x0000000000000000000000000000000000000000",
       index
     );
-    console.log("SAVED!");
+    console.log("Burned!");
     setLoading(false);
-    setError("Saved!");
+    setError("Burned!");
     setData(null);
+    localStorage.setItem("badges", JSON.stringify([]));
+    setTimeout(() => {
+      window.location.replace("/")
+    }, 3000)
   };
 
   useEffect(() => {
