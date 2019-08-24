@@ -5,6 +5,7 @@ import { Contract } from "ethers";
 import ProviderContext from "../utils/TemporaryProviderContext";
 import Spinner from "../components/Spinner";
 import { Stikker } from "../components/Stikker";
+import Logo from "../assets/logo.svg";
 
 const STIKKIT_CONTRACT = "0x0221fF31e1Bd6Da423664e079e3f6fd3A7fe6aDB";
 const abi = [
@@ -26,7 +27,7 @@ export const Dashboard = () => {
     }
 
     const getMyBadges = async () => {
-      setLoading(true)
+      setLoading(true);
       const publicKey = await provider.getSigner().getAddress();
       const userBadgesCount = await contract.balanceOf(publicKey);
       const newBadges = [];
@@ -51,7 +52,7 @@ export const Dashboard = () => {
           }
         }
       }
-      setLoading(false)
+      setLoading(false);
       localStorage.setItem("badges", JSON.stringify(newBadges));
     };
 
@@ -59,28 +60,32 @@ export const Dashboard = () => {
   }, []);
 
   return (
-    <div className="screen">
-      <div className="content">
-        <h1>Your stikkers</h1>
-        <div className="itemGrid">
-          {badges.length === 0 && loading && <Spinner />}
-          {badges.length === 0 && !loading && <p style={{textAlign: 'center'}}>You do not have any sticker yet 😥</p>}
-          {badges
-            .filter(badge => !!badge)
-            .map(badge => {
-              return (
-                <div className="itemGrid__item" key={badge.tokenId}>
-                  <Link to={`/details/${badge.tokenId}`}>
-                    <Stikker
-                      small
-                      image={badge.properties.image.description}
-                    ></Stikker>
-                  </Link>
-                </div>
-              );
-            })}
+    <>
+      <header className="header">
+        <img className="logo" src={Logo} alt="" />
+      </header>
+      <div className="screen">
+        <div className="content">
+          <h1 className="content__title">My Stikkers</h1>
+          <div className="itemGrid">
+            {badges.length === 0 && <Spinner />}
+            {badges
+              .filter(badge => !!badge)
+              .map(badge => {
+                return (
+                  <div className="itemGrid__item" key={badge.tokenId}>
+                    <Link to={`/details/${badge.tokenId}`}>
+                      <Stikker
+                        small
+                        image={badge.properties.image.description}
+                      ></Stikker>
+                    </Link>
+                  </div>
+                );
+              })}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

@@ -3,6 +3,7 @@ import React, { useContext, useState, useEffect } from "react";
 import { Stikker } from "../components/Stikker";
 import ProviderContext from "../utils/TemporaryProviderContext";
 import { Link } from "react-router-dom";
+import Logo from "../assets/logo.svg";
 
 const STIKKIT_CONTRACT = "0x0221fF31e1Bd6Da423664e079e3f6fd3A7fe6aDB";
 
@@ -48,6 +49,10 @@ export const Redeem = ({
 
     console.log("Tx:", receipt);
 
+    const foo = await receipt.wait();
+
+    console.log(foo);
+
     setLoading(false);
     setDone(true);
   }
@@ -67,40 +72,51 @@ export const Redeem = ({
   }, []);
 
   return (
-    <div className="screen">
-      <div className="content content--centered">
-        {!!data && (
-          <>
-            <Stikker done={done} loading={loading} image={data.image}></Stikker>
-            <h2>{data.name}</h2>
-            <p>{data.description}</p>
-          </>
-        )}
-        {!done ? (
-          <>
-            <h3>What?!</h3>
-            <p>
-              You just claimed a stikker! We're reserving it for you, wait a few
-              seconds or come back later to put it on your laptop
-            </p>
-          </>
+    <>
+      <header className="header header--alt">
+        <img className="logo" src={Logo} alt="" />
+      </header>
+      <div className="screen">
+        <div className="content content--centered">
+          {!!data && (
+            <>
+              <Stikker
+                done={done}
+                loading={loading}
+                image={data.image}
+              ></Stikker>
+              <h2>{data.name}</h2>
+              <p className="description">{data.description}</p>
+            </>
+          )}
+          {!done ? (
+            <>
+              <h3>What?!</h3>
+              <p className="description">
+                You just claimed a stikker! We're reserving it for you, wait a
+                few seconds or come back later to stikk it
+              </p>
+            </>
+          ) : (
+            <>
+              <h3>You got it!</h3>
+              <p>Now stikk it before you lose it!</p>
+            </>
+          )}
+        </div>
+        {loading ? (
+          <div className="bigLoader">Reserving your stikker…</div>
         ) : (
-          <>
-            <h3>Done!</h3>
-            <p>Now put it on your laptop before you lose it!</p>
-          </>
+          <div className="binaryActions">
+            <Link to={`/details`} className="fullBtn fullBtn--secondary">
+              Stick it!
+            </Link>
+            <Link to="/" className="fullBtn fullBtn--secondary">
+              Later.
+            </Link>
+          </div>
         )}
       </div>
-      {loading ? (
-        <div className="bigLoader">Reserving your stikker…</div>
-      ) : (
-        <>
-          {/* <button className="fullBtn">Stikk it nao!</button> */}
-          <Link to="/" className="fullBtn fullBtn--secondary">
-            Cool.
-          </Link>
-        </>
-      )}
-    </div>
+    </>
   );
 };

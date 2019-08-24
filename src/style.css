@@ -5,8 +5,19 @@
 }
 
 .header {
-  background-color: blue;
-  color: white;
+  background-color: #f8f8f8;
+  color: black;
+  padding: 1rem 1rem;
+}
+
+.header--alt {
+  background-color: transparent;
+  padding: 2rem 1rem;
+}
+
+.header--alt .logo {
+  width: 180px;
+  margin: 0 auto;
 }
 
 .header h1 {
@@ -43,6 +54,13 @@ img {
   text-align: center;
 }
 
+.content__title {
+  background-color: #f8f8f8;
+  margin: -1rem -1rem 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 24px;
+}
+
 .fullBtn {
   width: 100%;
   display: block;
@@ -68,8 +86,11 @@ img {
 .stikker {
   display: block;
   position: relative;
-  max-width: 240px;
+  max-width: 160px;
   margin: 0 auto;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-bottom: 1rem;
 }
 
 .stikker:after {
@@ -85,13 +106,11 @@ img {
   top: 50%;
   left: 50%;
   display: block;
-  border-radius: 50%;
-  overflow: hidden;
   margin: 0 auto;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center center;
   max-width: 100%;
-  max-height: 100%;
+  height: 100%;
   transform: translate(-50%, -50%);
   background-color: #e6e6e6;
 }
@@ -112,7 +131,7 @@ img {
 }
 
 .stikker--small {
-  max-width: 160px;
+  max-width: 100px;
   margin: 0;
 }
 
@@ -137,7 +156,7 @@ img {
 }
 
 .bigLoader {
-  padding: 2rem 1rem;
+  padding: 1rem 1rem;
   background-color: lightgray;
   text-align: center;
   font-weight: bold;
@@ -145,4 +164,17 @@ img {
 
 .binaryActions {
   display: flex;
+}
+
+.logo {
+  width: 100px;
+  display: block;
+}
+
+h2 {
+  font-size: 18px;
+}
+
+.description {
+  font-size: 12px;
 }

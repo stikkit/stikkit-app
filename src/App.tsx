@@ -16,10 +16,6 @@ const App: React.FC = () => {
     //@ts-ignore
     <ProviderContext.Provider value={provider}>
       <Router>
-        <header className="header">
-          <h1>stikk.it!</h1>
-        </header>
-
         <Route exact path="/" component={Dashboard}></Route>
         <Route path="/claim" component={Redeem} />
         <Route path="/dashboard" component={() => <h1>Dashboard</h1>} />

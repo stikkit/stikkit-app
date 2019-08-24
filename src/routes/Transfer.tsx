@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useContext } from "react";
 import Portis from "@portis/web3";
 import { providers } from "ethers";
-import ProviderContext from "../utils/TemporaryProviderContext";
-import { useContract } from "../utils/contract";
+import React, { useEffect, useState } from "react";
+import Logo from "../assets/logo.svg";
 import { Stikker } from "../components/Stikker";
+import { useContract } from "../utils/contract";
+import { Link } from "react-router-dom";
 
 const portis = new Portis("0d20faae-038a-49da-8085-53ea5e3faba1", "rinkeby");
 const portisProvider = new providers.Web3Provider(portis.provider);
@@ -80,20 +81,19 @@ export const Transfer = ({
   const burn = async (e: any) => {
     e.preventDefault();
 
+    if (!window.confirm("Are you sure you want to burn this stikker?")) return;
+
     setLoading(true);
 
-    const tx = await contract.burn(
-      await contract.signer.getAddress(),
-      index
-    );
+    const tx = await contract.burn(await contract.signer.getAddress(), index);
     console.log("Burned!");
     setLoading(false);
     setError("Burned!");
     setData(null);
     localStorage.setItem("badges", JSON.stringify([]));
     setTimeout(() => {
-      window.location.replace("/")
-    }, 3000)
+      window.location.replace("/");
+    }, 3000);
   };
 
   useEffect(() => {
@@ -101,29 +101,40 @@ export const Transfer = ({
   }, []);
 
   return (
-    <div className="screen">
-      <div className="content content--centered">
-        {error && <p>{error}</p>}
-        {loading && <h1>Loading…</h1>}
-        {!!data && (
-          <>
-            <Stikker image={data.image}></Stikker>
-            <h2>{data.name}</h2>
-            <p>{data.description}</p>
-          </>
+    <>
+      <header className="header header--alt">
+        <Link to="/">
+          <img className="logo" src={Logo} alt="" />
+        </Link>
+      </header>
+      <div className="screen">
+        <div className="content content--centered">
+          {error && <p>{error}</p>}
+          {loading && <h1>Loading…</h1>}
+          {!!data && (
+            <>
+              <Stikker image={data.image}></Stikker>
+              <h2>{data.name}</h2>
+              <p className="description">{data.description}</p>
+            </>
+          )}
+        </div>
+
+        {loading ? (
+          <div className="bigLoader">Loading…</div>
+        ) : (
+          isOwner && (
+            <div className="binaryActions">
+              <button className="fullBtn" onClick={transfer}>
+                Save it
+              </button>
+              <button className="fullBtn fullBtn--bad" onClick={burn}>
+                Burn it
+              </button>
+            </div>
+          )
         )}
       </div>
-
-      {isOwner && (
-        <div className="binaryActions">
-          <button className="fullBtn" onClick={transfer}>
-            Save it
-          </button>
-          <button className="fullBtn fullBtn--bad" onClick={burn}>
-            Burn it
-          </button>
-        </div>
-      )}
-    </div>
+    </>
   );
 };
