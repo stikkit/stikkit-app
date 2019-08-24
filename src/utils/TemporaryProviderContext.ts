@@ -13,7 +13,9 @@ export const createProvider = () => {
   );
 
   if (localStorage.getItem("PRIVATE_KEY")) {
-    web3.eth.accounts.privateKeyToAccount(localStorage.getItem("PRIVATE_KEY"));
+    web3.eth.accounts.privateKeyToAccount(
+      localStorage.getItem("PRIVATE_KEY") || ""
+    );
   } else {
     const wallet = web3.eth.accounts.create();
     localStorage.setItem("PRIVATE_KEY", wallet.privateKey);
