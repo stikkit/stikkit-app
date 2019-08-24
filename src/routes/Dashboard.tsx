@@ -43,7 +43,9 @@ export const Dashboard = () => {
           let tokenUri = await contract.tokenURI(tokenId.toNumber());
           let response = await fetch(tokenUri);
           let parsed = await response.json();
-          badges[tokenId] = parsed;
+          if(parsed && parsed.title && parsed.properties) {
+            badges[tokenId] = parsed;
+          }
         }
       }
       localStorage.setItem("badges", JSON.stringify(badges))
