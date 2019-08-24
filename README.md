@@ -1,3 +1,4 @@
+![alt text](https://i.imgur.com/4azliuJ.png "Logo Title Text 1")
 This is a simple front-end client for interacting with NFT smart contract.
 
 ## Development
