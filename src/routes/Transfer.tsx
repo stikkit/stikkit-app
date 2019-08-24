@@ -11,10 +11,12 @@ const portisProvider = new providers.Web3Provider(portis.provider);
 
 export const Transfer = ({
   immediate,
-  match
+  match,
+  history
 }: {
   immediate?: boolean;
   match?: any;
+  history: any;
 }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -72,10 +74,13 @@ export const Transfer = ({
       recipientAddress,
       index
     );
-    console.log("BURNED!");
+    console.log("SAVED!");
     setLoading(false);
-    setError("BURNED!!");
+    setError("SAVED!!");
     setData(null);
+    setTimeout(() => {
+      history.push("/");
+    }, 3000);
   };
 
   const burn = async (e: any) => {
@@ -113,11 +118,16 @@ export const Transfer = ({
           {loading && <h1>Loading…</h1>}
           {!!data && (
             <>
-              <Stikker image={data.image}></Stikker>
+              <Stikker loading={loading} image={data.image}></Stikker>
               <h2>{data.name}</h2>
               <p className="description">{data.description}</p>
             </>
           )}
+          <h3>What?!</h3>
+          <p className="description">
+            You need to stick your stikkers to a permanent account, otherwise
+            they might get lost! If you don't like them, set them on fire!
+          </p>
         </div>
 
         {loading ? (

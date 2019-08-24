@@ -5,6 +5,7 @@ import { Contract } from "ethers";
 const STIKKIT_CONTRACT = "0x0221fF31e1Bd6Da423664e079e3f6fd3A7fe6aDB";
 
 let abi = [
+  "event Transfer(address indexed from, address indexed to, uint256 indexed tokenId)",
   "function awardItem(string tokenURI) public returns (uint256)",
   "function tokenOfOwnerByIndex(address owner, uint256 index) public view returns (uint256)",
   "function transferFrom(address from, address to, uint256 tokenId) public",

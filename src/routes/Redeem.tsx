@@ -4,10 +4,7 @@ import { Stikker } from "../components/Stikker";
 import ProviderContext from "../utils/TemporaryProviderContext";
 import { Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
-
-const STIKKIT_CONTRACT = "0x0221fF31e1Bd6Da423664e079e3f6fd3A7fe6aDB";
-
-let abi = ["function awardItem(string tokenURI) public returns (uint256)"];
+import { useContract } from "../utils/contract";
 
 export const Redeem = ({
   location,
@@ -19,9 +16,10 @@ export const Redeem = ({
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState();
   const [done, setDone] = useState(false);
+  const [tokenId, setTokenId] = useState("");
   const provider = useContext(ProviderContext);
 
-  const contract = new Contract(STIKKIT_CONTRACT, abi, provider.getSigner());
+  const contract = useContract();
 
   async function loadData(tokenURI: string) {
     try {
@@ -41,6 +39,12 @@ export const Redeem = ({
   async function awardItem(tokenURI: string) {
     const address = await provider.getSigner().getAddress();
 
+    let filter = contract.filters.Transfer(null, address);
+
+    contract.on(filter, (from, to, value) => {
+      setTokenId(value);
+    });
+
     console.log("Signer Address", address);
 
     setLoading(true);
@@ -48,10 +52,6 @@ export const Redeem = ({
     const receipt = await contract.awardItem(tokenURI);
 
     console.log("Tx:", receipt);
-
-    const foo = await receipt.wait();
-
-    console.log(foo);
 
     setLoading(false);
     setDone(true);
@@ -108,7 +108,7 @@ export const Redeem = ({
           <div className="bigLoader">Reserving your stikker…</div>
         ) : (
           <div className="binaryActions">
-            <Link to={`/details`} className="fullBtn fullBtn">
+            <Link to={`/details/${tokenId}`} className="fullBtn fullBtn">
               Stikk it!
             </Link>
             <Link to="/" className="fullBtn fullBtn--secondary">
