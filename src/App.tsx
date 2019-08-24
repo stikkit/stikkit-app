@@ -7,6 +7,7 @@ import "./style.css";
 import ProviderContext, {
   createProvider
 } from "./utils/TemporaryProviderContext";
+import { Transfer } from "./routes/Transfer";
 
 const provider = createProvider();
 
@@ -20,10 +21,10 @@ const App: React.FC = () => {
         </header>
 
         <Route exact path="/" component={Dashboard}></Route>
-        <Route path="/redeem" component={Redeem} />
+        <Route path="/claim" component={Redeem} />
         <Route path="/dashboard" component={() => <h1>Dashboard</h1>} />
         <Route path="/queue" component={() => <h1>Queue of stikkers</h1>} />
-        <Route path="/save" component={() => <h1>Dashboard</h1>} />
+        <Route path="/stikk" component={Transfer} />
       </Router>
     </ProviderContext.Provider>
   );
