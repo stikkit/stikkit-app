@@ -140,7 +140,7 @@ img {
 .stikker__loader {
   position: absolute;
   left: 50%;
-  bottom: -3rem;
+  bottom: -5rem;
   transform: translateX(-50%);
   font-size: 10rem;
   font-weight: bold;
@@ -151,7 +151,7 @@ img {
   color: green;
   position: absolute;
   left: 40%;
-  top: 20%;
+  top: 0%;
   font-size: 10rem;
   font-weight: bold;
   text-shadow: 0 0 16px rgba(0, 0, 0, 0.2);
