@@ -108,8 +108,8 @@ export const Redeem = ({
           <div className="bigLoader">Reserving your stikker…</div>
         ) : (
           <div className="binaryActions">
-            <Link to={`/details`} className="fullBtn fullBtn--secondary">
-              Stick it!
+            <Link to={`/details`} className="fullBtn fullBtn">
+              Stikk it!
             </Link>
             <Link to="/" className="fullBtn fullBtn--secondary">
               Later.
