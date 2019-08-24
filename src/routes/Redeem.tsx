@@ -44,7 +44,7 @@ export const Redeem = ({
 
     setLoading(true);
 
-    const receipt = await contract.awardItem("https://fuck.yeah");
+    const receipt = await contract.awardItem(tokenURI);
 
     console.log("Tx:", receipt);
 
