@@ -39,12 +39,16 @@ export const Dashboard = () => {
       const badges = [];
       if (userBadgesCount.toNumber() > 0) {
         for(let i = 0; i < userBadgesCount; i++) {
-          let tokenId = await contract.tokenOfOwnerByIndex(publicKey, i);
-          let tokenUri = await contract.tokenURI(tokenId.toNumber());
-          let response = await fetch(tokenUri);
-          let parsed = await response.json();
-          if(parsed && parsed.title && parsed.properties) {
-            badges[tokenId] = parsed;
+          try {
+            let tokenId = await contract.tokenOfOwnerByIndex(publicKey, i);
+            let tokenUri = await contract.tokenURI(tokenId.toNumber());
+            let response = await fetch(tokenUri);
+            let parsed = await response.json();
+            if(parsed && parsed.title && parsed.properties) {
+              badges[tokenId] = parsed;
+            }
+          } catch {
+            continue
           }
         }
       }
