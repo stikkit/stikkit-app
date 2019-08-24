@@ -28,7 +28,7 @@ export const Dashboard = () => {
   window.addEventListener('storage', onStorageEvent, false);
 
   useEffect(() => {
-    const existingBadges = JSON.parse(localStorage.getItem('badges') || "")
+    const existingBadges = JSON.parse(localStorage.getItem('badges') || "[]")
     if(existingBadges) {
       setBadges(existingBadges)
     }
