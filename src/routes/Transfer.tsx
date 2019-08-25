@@ -1,13 +1,9 @@
-import Portis from "@portis/web3";
-import { providers } from "ethers";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { Stikker } from "../components/Stikker";
 import { useContract } from "../utils/contract";
-import { Link } from "react-router-dom";
-
-const portis = new Portis("0d20faae-038a-49da-8085-53ea5e3faba1", "rinkeby");
-const portisProvider = new providers.Web3Provider(portis.provider);
+import PortisProviderContext from "../utils/PortisProviderContext";
 
 export const Transfer = ({
   immediate,
@@ -18,6 +14,7 @@ export const Transfer = ({
   match?: any;
   history: any;
 }) => {
+  const portisProvider = useContext(PortisProviderContext);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [data, setData] = useState();
@@ -114,7 +111,6 @@ export const Transfer = ({
       <div className="screen">
         <div className="content content--centered">
           {error && <p>{error}</p>}
-          {loading && <h1>Loading…</h1>}
           {!!data && (
             <>
               <Stikker loading={loading} image={data.image}></Stikker>

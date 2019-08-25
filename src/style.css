@@ -28,10 +28,14 @@
 }
 
 .itemGrid {
-  display: grid;
-  grid-auto-flow: row;
-  grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
-  grid-gap: 0.5rem;
+  display: flex;
+  flex-direction: row;
+}
+
+.itemGrid .stikker {
+  width: 100px;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
 }
 
 img {
@@ -179,4 +183,8 @@ h2 {
 
 .description {
   font-size: 12px;
+}
+
+a {
+  cursor: pointer;
 }
