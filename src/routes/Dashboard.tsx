@@ -106,7 +106,7 @@ export const Dashboard = () => {
   useEffect(() => {
     getMyBadges();
     checkPortis();
-    loggedIn && getPermanentBadges();
+    getPermanentBadges();
 
     portis.onLogin(() => {
       setLoggedIn(true);
